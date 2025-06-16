@@ -1,22 +1,17 @@
 package com.ctjioman.eatClub.Model;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class GetPeakTimeOfDealsOutput {
     String peakTimeStart;
     String peakTimeEnd;
 
-    public String getPeakTimeStart() {
-        return peakTimeStart;
-    }
+    public GetPeakTimeOfDealsOutput setGetPeakTimeOfDeals(LocalTime peakStartTime, LocalTime peakEndTime) {
+		DateTimeFormatter outputTimeFormatter = DateTimeFormatter.ofPattern("hh:mma");
+		this.peakTimeStart = peakStartTime.format(outputTimeFormatter).toString();
+		this.peakTimeEnd = peakEndTime.format(outputTimeFormatter).toString();
 
-    public void setPeakTimeStart(String peakTimeStart) {
-        this.peakTimeStart = peakTimeStart;
-    }
-
-    public String getPeakTimeEnd() {
-        return peakTimeEnd;
-    }
-
-    public void setPeakTimeEnd(String peakTimeEnd) {
-        this.peakTimeEnd = peakTimeEnd;
-    }
+		return this;
+	}
 }

@@ -111,9 +111,9 @@ public class EatClubController {
 					currentOpen--;
 				}
 			}
-			GetPeakTimeOfDealsOutput output = setGetPeakTimeOfDeals(startPeak, endPeak);
+			GetPeakTimeOfDealsOutput output = new GetPeakTimeOfDealsOutput();
 
-			return gson.toJson(output);
+			return gson.toJson(output.setGetPeakTimeOfDeals(startPeak, endPeak));
 
 		} catch (Exception e) {
 			System.out.println("Error" + e);
@@ -122,15 +122,6 @@ public class EatClubController {
 			return gson.toJson(error);
 		}
 
-	}
-
-	private GetPeakTimeOfDealsOutput setGetPeakTimeOfDeals(LocalTime peakStartTime, LocalTime peakEndTime) {
-		DateTimeFormatter outputTimeFormatter = DateTimeFormatter.ofPattern("hh:mma");
-		GetPeakTimeOfDealsOutput output = new GetPeakTimeOfDealsOutput();
-		output.setPeakTimeStart(peakStartTime.format(outputTimeFormatter).toString());
-		output.setPeakTimeEnd(peakEndTime.format(outputTimeFormatter).toString());
-
-		return output;
 	}
 
 }
