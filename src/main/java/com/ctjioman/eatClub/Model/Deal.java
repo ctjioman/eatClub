@@ -1,5 +1,8 @@
 package com.ctjioman.eatClub.Model;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class Deal {
     private String objectId;
     private String discount;
@@ -106,4 +109,24 @@ public class Deal {
         return end;
     }
 
+    public boolean isDealActive(DateTimeFormatter formatter, LocalTime inputDealTime, Resturant resturant, Deal deal) {
+        if (deal.isOpenOrStartSet() == false && deal.isCloseOrEndSet() == false) {
+            boolean isResturantOpen = inputDealTime.isAfter(LocalTime.parse(resturant.getOpen(), formatter))
+                    && inputDealTime.isBefore(LocalTime.parse(resturant.getClose(), formatter));
+
+            if (isResturantOpen == true) {
+                return true;
+            }
+            return false;
+        }
+
+        boolean isDealOpenAndActive = this.isOpenOrStartSet()
+                ? inputDealTime.isAfter(LocalTime.parse(this.getOpenOrStart(), formatter))
+                : false;
+        boolean isDealCloseAndActive = this.isCloseOrEndSet()
+                ? inputDealTime.isBefore(LocalTime.parse(this.getCloseOrEnd(), formatter))
+                : false;
+
+        return isDealOpenAndActive && isDealCloseAndActive;
+    }
 }

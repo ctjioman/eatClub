@@ -42,7 +42,7 @@ public class EatClubController {
 
 			for (Resturant resturant : allResturantData) {
 				for (Deal deal : resturant.getDeals()) {
-					if (isDealActive(formatter, inputDealTime, resturant, deal)) {
+					if (deal.isDealActive(formatter, inputDealTime, resturant, deal)) {
 						GetDealsByTimeOfDayOutput getDealsByTimeOfDayOutput = new GetDealsByTimeOfDayOutput();
 
 						output.add(getDealsByTimeOfDayOutput.setGetDealsByTimeOfDayOutput(resturant, deal));
@@ -122,40 +122,6 @@ public class EatClubController {
 			return gson.toJson(error);
 		}
 
-	}
-
-	private boolean isDealActive(DateTimeFormatter formatter, LocalTime inputDealTime, Resturant resturant, Deal deal) {
-		if (deal.isOpenOrStartSet() == false && deal.isCloseOrEndSet() == false) {
-			System.out.println("Resturant Name: " + resturant.getName());
-			System.out.println("intputTime: " + inputDealTime);
-			System.out.println("open: " + resturant.getOpen() + " - "
-					+ LocalTime.parse(resturant.getOpen(), formatter));
-			System.out.println("close: " + resturant.getClose() + " - "
-					+ LocalTime.parse(resturant.getClose(), formatter));
-
-			System.out.println("Input isAfter Open: "
-					+ (inputDealTime.isAfter(LocalTime.parse(resturant.getOpen(), formatter))));
-			System.out.println("Input isBefore Close: "
-					+ (inputDealTime.isBefore(LocalTime.parse(resturant.getClose(), formatter))));
-			System.out.println();
-
-			boolean isResturantOpen = inputDealTime.isAfter(LocalTime.parse(resturant.getOpen(), formatter))
-					&& inputDealTime.isBefore(LocalTime.parse(resturant.getClose(), formatter));
-
-			if (isResturantOpen == true) {
-				return true;
-			}
-			return false;
-		}
-
-		boolean isDealOpenAndActive = deal.isOpenOrStartSet()
-				? inputDealTime.isAfter(LocalTime.parse(deal.getOpenOrStart(), formatter))
-				: false;
-		boolean isDealCloseAndActive = deal.isCloseOrEndSet()
-				? inputDealTime.isBefore(LocalTime.parse(deal.getCloseOrEnd(), formatter))
-				: false;
-
-		return isDealOpenAndActive && isDealCloseAndActive;
 	}
 
 	private GetPeakTimeOfDealsOutput setGetPeakTimeOfDeals(LocalTime peakStartTime, LocalTime peakEndTime) {
