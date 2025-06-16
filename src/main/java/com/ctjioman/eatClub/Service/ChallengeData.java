@@ -36,7 +36,6 @@ public class ChallengeData {
             e.printStackTrace();
         }
         String apiResponse = response.body().toString();
-        System.out.println(apiResponse);
 
         JsonObject rootObject = JsonParser.parseString(apiResponse).getAsJsonObject();
         JsonArray responseResturants = rootObject.getAsJsonArray("restaurants");
@@ -46,7 +45,7 @@ public class ChallengeData {
             resturant = gson.fromJson(element, Resturant.class);
             resturants.add(resturant);
         }
-    
+
         return resturants;
     }
 }
