@@ -43,7 +43,9 @@ public class EatClubController {
 			for (Resturant resturant : allResturantData) {
 				for (Deal deal : resturant.getDeals()) {
 					if (isDealActive(formatter, inputDealTime, resturant, deal)) {
-						output.add(setGetDealsByTimeOfDayOutput(resturant, deal));
+						GetDealsByTimeOfDayOutput getDealsByTimeOfDayOutput = new GetDealsByTimeOfDayOutput();
+
+						output.add(getDealsByTimeOfDayOutput.setGetDealsByTimeOfDayOutput(resturant, deal));
 					}
 
 				}
@@ -69,7 +71,6 @@ public class EatClubController {
 		try {
 			ArrayList<Resturant> allResturantData = challengeDataObj.getChallengeData(null);
 			ArrayList<OpenTimeEvent> events = new ArrayList<>();
-			GetPeakTimeOfDealsOutput output = setGetPeakTimeOfDeals(startPeak, endPeak);
 
 			for (Resturant resturant : allResturantData) {
 				for (Deal deal : resturant.getDeals()) {
@@ -110,6 +111,7 @@ public class EatClubController {
 					currentOpen--;
 				}
 			}
+			GetPeakTimeOfDealsOutput output = setGetPeakTimeOfDeals(startPeak, endPeak);
 
 			return gson.toJson(output);
 
@@ -154,24 +156,6 @@ public class EatClubController {
 				: false;
 
 		return isDealOpenAndActive && isDealCloseAndActive;
-	}
-
-	private GetDealsByTimeOfDayOutput setGetDealsByTimeOfDayOutput(Resturant resturant, Deal deal) {
-		GetDealsByTimeOfDayOutput output = new GetDealsByTimeOfDayOutput();
-		output.setRestaurantObjectId(resturant.getObjectId());
-		output.setDealObjectId(deal.getObjectId());
-		output.setRestaurantObjectId(resturant.getObjectId());
-		output.setResturantName(resturant.getName());
-		output.setResturantAddress1(resturant.getAddress1());
-		output.setResturantSuburb(resturant.getSuburb());
-		output.setResturantOpen(resturant.getOpen());
-		output.setResturantClose(resturant.getClose());
-		output.setDealObjectId(deal.getObjectId());
-		output.setDiscount(deal.getDiscount());
-		output.setDineIn(deal.getDineIn());
-		output.setLightning(deal.getLightning());
-		output.setQtyLeft(deal.getQtyLeft());
-		return output;
 	}
 
 	private GetPeakTimeOfDealsOutput setGetPeakTimeOfDeals(LocalTime peakStartTime, LocalTime peakEndTime) {

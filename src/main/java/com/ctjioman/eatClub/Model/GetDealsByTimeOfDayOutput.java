@@ -101,4 +101,19 @@ public class GetDealsByTimeOfDayOutput {
         this.qtyLeft = qtyLeft;
     }
 
+    public GetDealsByTimeOfDayOutput setGetDealsByTimeOfDayOutput(Resturant resturant, Deal deal) {
+		this.restaurantObjectId = resturant.getObjectId();
+		this.resturantName = resturant.getName();
+		this.resturantAddress1 = resturant.getAddress1();
+		this.resturantSuburb = resturant.getSuburb();
+		this.resturantOpen = resturant.getOpen();
+		this.resturantClose = resturant.getClose();
+		this.dealObjectId = deal.getObjectId();
+		this.discount = deal.getDiscount();
+		this.dineIn = deal.getDineIn();
+		this.lightning = deal.getLightning();
+		this.qtyLeft = deal.getQtyLeft();
+		return this;
+	}
+
 }
